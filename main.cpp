@@ -43,15 +43,6 @@ public:
 
         return out;
     }
-
-    //Overloaded assign operator
-    Tile& operator=(const Tile& tile)
-    {
-        if(this != &tile)
-            m_tileNum = tile.m_tileNum;
-
-        return *this;
-    }
 };
 
 class Board
