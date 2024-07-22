@@ -1,8 +1,43 @@
 #include <iostream>
+#include <limits>
 
 // Increase amount of new lines if your board isn't
 // at the very bottom of the console
 constexpr int g_consoleLines { 25 };
+
+namespace UserInput
+{
+    bool isValidCommand(char ch)
+    {
+        return ch == 'w'
+            || ch == 'a'
+            || ch == 's'
+            || ch == 'd'
+            || ch == 'q';
+    }
+
+    void ignoreLine()
+    {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+
+    char getCharacter()
+    {
+        char operation {};
+        std::cin >> operation;
+        ignoreLine(); // remove any extraneous input
+        return operation;
+    }
+
+    char getCommandFromUser()
+    {
+        char ch {};
+        while (!isValidCommand(ch))
+            ch = getCharacter();
+        
+        return ch;
+    }
+};
 
 class Tile
 {
@@ -96,5 +131,17 @@ int main()
     Board board {};
     std::cout << board;
 
+    while (true)
+    {
+        char ch { UserInput::getCommandFromUser() };
+
+        std::cout << "Valid command: " << ch << '\n';
+
+        if(ch == 'q')
+        {
+            std::cout << "\n\nBye!\n\n";
+            return 0;
+        }
+    }
     return 0;
 }
