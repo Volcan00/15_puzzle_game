@@ -7,93 +7,6 @@
 // at the very bottom of the console
 constexpr int g_consoleLines { 25 };
 
-class Tile
-{
-public:
-    Tile() = default; // Default constructor
-
-    //Constructor with a parameter to initialize the tile number 
-    explicit Tile(int num)
-        : m_tileNum { num }
-    {
-
-    } 
-
-    //Getter for tile value
-    int getNum() const
-    {
-        return m_tileNum;
-    }
-
-    //Check if tile is empty
-    bool isEmpty() const
-    {
-        return m_tileNum == 0;
-    }
-
-    //Overloaded output operator
-    friend std::ostream& operator<<(std::ostream& out, const Tile& tile)
-    {
-        if(tile.m_tileNum == 0) // if empty spot
-            out << "    ";
-        else if(tile.m_tileNum > 9) // if two digit number
-            out << " " << tile.m_tileNum << " ";
-        else// if one digit number
-            out << "  " << tile.m_tileNum << " ";
-
-        return out;
-    }
-
-private:
-    int m_tileNum {};
-};
-
-class Board
-{
-public:
-    //Constructor to initialize the board
-    Board () = default;
-
-    static void printEmptyLines(int count)
-    {
-        for(int i = 0; i < count; ++i)
-        {
-            std::cout << '\n';
-        }
-    }
-
-    //Overloaded output operator for the board
-    friend std::ostream& operator<<(std::ostream& out, Board& board)
-    {
-        // Before drawing always print some empty lines
-        // so that only one board appears at a time
-        // and it's always shown at the bottom of the window
-        // because console window scrolls automatically when there is no
-        // enough space.
-        printEmptyLines(g_consoleLines);
-
-        for(int i = 0; i < SIZE; ++i)
-        {
-            for(int j = 0; j < SIZE; ++j)
-            {
-                out << board.m_grid[i][j];
-            }
-
-            out << '\n';
-        }
-
-        return out;
-    }
-
-private:
-    static constexpr int SIZE { 4 };
-    Tile m_grid[SIZE][SIZE] { Tile { 1 }, Tile { 2 }, Tile { 3 }, Tile{ 4 }, 
-                              Tile{ 5 }, Tile{ 6 }, Tile{ 7 }, Tile{ 8 },
-                              Tile{ 9 }, Tile{ 10 }, Tile{ 11 }, Tile{ 12 },
-                              Tile{ 13 }, Tile { 14 }, Tile{ 15 }, Tile{ 0 } 
-                            };
-};
-
 class Direction
 {
 public:
@@ -156,36 +69,176 @@ private:
 class Point 
 {
 public:
+    Point() = default;
+
     Point(int x, int y)
-        : m_point{x, y}
+        : m_x{ x },
+          m_y{ y }
     {    
+    }
+
+    int getX() const
+    {
+        return m_x;
+    }
+
+    int getY() const
+    {
+        return m_y;
+    }
+
+    void setPoint(int x, int y)
+    {
+        m_x = x;
+        m_y = y;
     }
 
     bool operator==(const Point& point)
     {
-        return (m_point.first == point.m_point.first && m_point.second == point.m_point.second);
+        return (m_x == point.m_x && m_y == point.m_y);
     }
 
     bool operator!=(const Point& point)
     {
-        return (m_point.first != point.m_point.first || m_point.second != point.m_point.second);
+        return (m_x != point.m_x || m_y != point.m_y);
     }
 
     Point getAdjacentPoint(const Direction& dir) const
     {
         switch (dir.getType())
         {
-        case Direction::up    : return Point{m_point.first, m_point.second + 1};
-        case Direction::down  : return Point{m_point.first, m_point.second - 1};
-        case Direction::left  : return Point{m_point.first - 1, m_point.second};
-        case Direction::right : return Point{m_point.first + 1, m_point.second};
+        case Direction::up    : return Point{m_x, m_y + 1};
+        case Direction::down  : return Point{m_x, m_y - 1};
+        case Direction::left  : return Point{m_x - 1, m_y};
+        case Direction::right : return Point{m_x + 1, m_y};
         }
 
         return *this;
     }
 
 private:
-    std::pair<int, int> m_point {};
+    int m_x {};
+    int m_y {};
+};
+
+class Tile
+{
+public:
+    Tile() = default; // Default constructor
+
+    //Constructor with a parameter to initialize the tile number 
+    explicit Tile(int num, int x, int y)
+        : m_tileNum { num },
+          m_point { x, y }
+    {
+
+    } 
+
+    //Getter for tile value
+    int getNum() const
+    {
+        return m_tileNum;
+    }
+
+    void setNum(int value)
+    {
+        m_tileNum = value;
+    }
+
+    const Point& getPoint() const
+    {
+        return m_point;
+    }
+
+    void setPoint(int x, int y)
+    {
+        m_point.setPoint(x, y);
+    } 
+
+    //Check if tile is empty
+    bool isEmpty() const
+    {
+        return m_tileNum == 0;
+    }
+
+    //Overloaded output operator
+    friend std::ostream& operator<<(std::ostream& out, const Tile& tile)
+    {
+        if(tile.m_tileNum == 0) // if empty spot
+            out << "    ";
+        else if(tile.m_tileNum > 9) // if two digit number
+            out << " " << tile.m_tileNum << " ";
+        else// if one digit number
+            out << "  " << tile.m_tileNum << " ";
+
+        return out;
+    }
+
+private:
+    int m_tileNum {};
+    Point m_point {};
+};
+
+class Board
+{
+public:
+    //Constructor to initialize the board
+    Board()
+    {
+        int defaultValue = 1;
+
+        for(int i = 0; i < SIZE; ++i)
+        {
+            for(int j = 0; j < SIZE; ++j)
+            {
+                if(i == SIZE - 1 && j == SIZE - 1)
+                {
+                    m_grid[i][j].setNum(0);
+                }
+                else
+                {
+                    m_grid[i][j].setNum(defaultValue++);
+                }
+
+                m_grid[i][j].setPoint(j, i);
+            }
+        }
+    }
+
+    static void printEmptyLines(int count)
+    {
+        for(int i = 0; i < count; ++i)
+        {
+            std::cout << '\n';
+        }
+    }
+
+    //Overloaded output operator for the board
+    friend std::ostream& operator<<(std::ostream& out, Board& board)
+    {
+        // Before drawing always print some empty lines
+        // so that only one board appears at a time
+        // and it's always shown at the bottom of the window
+        // because console window scrolls automatically when there is no
+        // enough space.
+        printEmptyLines(g_consoleLines);
+
+        for(int i = 0; i < SIZE; ++i)
+        {
+            for(int j = 0; j < SIZE; ++j)
+            {
+                out << board.m_grid[i][j];
+            }
+
+            out << '\n';
+        }
+
+        return out;
+    }
+
+private:
+    static constexpr int SIZE { 4 };
+    Tile m_grid[SIZE][SIZE] {};
 };
 
 namespace UserInput
