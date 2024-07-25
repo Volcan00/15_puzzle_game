@@ -153,6 +153,41 @@ private:
     Type m_type {};
 };
 
+class Point 
+{
+public:
+    Point(int x, int y)
+        : m_point{x, y}
+    {    
+    }
+
+    bool operator==(const Point& point)
+    {
+        return (m_point.first == point.m_point.first && m_point.second == point.m_point.second);
+    }
+
+    bool operator!=(const Point& point)
+    {
+        return (m_point.first != point.m_point.first || m_point.second != point.m_point.second);
+    }
+
+    Point getAdjacentPoint(const Direction& dir) const
+    {
+        switch (dir.getType())
+        {
+        case Direction::up    : return Point{m_point.first, m_point.second + 1};
+        case Direction::down  : return Point{m_point.first, m_point.second - 1};
+        case Direction::left  : return Point{m_point.first - 1, m_point.second};
+        case Direction::right : return Point{m_point.first + 1, m_point.second};
+        }
+
+        return *this;
+    }
+
+private:
+    std::pair<int, int> m_point {};
+};
+
 namespace UserInput
 {
     bool isValidCommand(char ch)
@@ -220,12 +255,22 @@ int main()
         if(ch == 'q')
         {
             std::cout << "\n\nBye!\n\n";
-            return 0;
+            break;
         }
 
         Direction dir { UserInput::charToDirection(ch) };
 
         std::cout << "You entered direction: " << dir << '\n';
     }
+
+    std::cout << std::boolalpha;
+    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::up) == Point{ 1, 0 }) << '\n';
+    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) << '\n';
+    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) << '\n';
+    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) << '\n';
+    std::cout << (Point{ 1, 1 } != Point{ 2, 1 }) << '\n';
+    std::cout << (Point{ 1, 1 } != Point{ 1, 2 }) << '\n';
+    std::cout << !(Point{ 1, 1 } != Point{ 1, 1 }) << '\n'; 
+
     return 0;
 }
