@@ -66,59 +66,33 @@ private:
     Type m_type {};
 };
 
-class Point 
+struct Point
 {
-public:
-    Point() = default;
+    int x{};
+    int y{};
 
-    Point(int x, int y)
-        : m_x{ x },
-          m_y{ y }
-    {    
-    }
-
-    int getX() const
+    friend bool operator==(Point p1, Point p2)
     {
-        return m_x;
+        return p1.x == p2.x && p1.y == p2.y;
     }
 
-    int getY() const
+    friend bool operator!=(Point p1, Point p2)
     {
-        return m_y;
+        return !(p1 == p2);
     }
 
-    void setPoint(int x, int y)
-    {
-        m_x = x;
-        m_y = y;
-    }
-
-    bool operator==(const Point& point)
-    {
-        return (m_x == point.m_x && m_y == point.m_y);
-    }
-
-    bool operator!=(const Point& point)
-    {
-        return (m_x != point.m_x || m_y != point.m_y);
-    }
-
-    Point getAdjacentPoint(const Direction& dir) const
+    Point getAdjacentPoint(Direction dir) const
     {
         switch (dir.getType())
         {
-        case Direction::up    : return Point{m_x, m_y + 1};
-        case Direction::down  : return Point{m_x, m_y - 1};
-        case Direction::left  : return Point{m_x - 1, m_y};
-        case Direction::right : return Point{m_x + 1, m_y};
+        case Direction::up:     return Point{ x,     y - 1 };
+        case Direction::down:   return Point{ x,     y + 1 };
+        case Direction::left:   return Point{ x - 1, y };
+        case Direction::right:  return Point{ x + 1, y };
         }
 
         return *this;
     }
-
-private:
-    int m_x {};
-    int m_y {};
 };
 
 class Tile
@@ -127,9 +101,8 @@ public:
     Tile() = default; // Default constructor
 
     //Constructor with a parameter to initialize the tile number 
-    explicit Tile(int num, int x, int y)
-        : m_tileNum { num },
-          m_point { x, y }
+    explicit Tile(int num)
+        : m_tileNum { num }
     {
 
     } 
@@ -144,16 +117,6 @@ public:
     {
         m_tileNum = value;
     }
-
-    const Point& getPoint() const
-    {
-        return m_point;
-    }
-
-    void setPoint(int x, int y)
-    {
-        m_point.setPoint(x, y);
-    } 
 
     //Check if tile is empty
     bool isEmpty() const
@@ -199,10 +162,42 @@ public:
                 {
                     m_grid[i][j].setNum(defaultValue++);
                 }
-
-                m_grid[i][j].setPoint(j, i);
             }
         }
+    }
+
+    static bool isValidPoint(const Point& pt)
+    {
+        return (pt.x >= 0 && pt.x < SIZE)
+            && (pt.y >= 0 && pt.y < SIZE);
+    }
+
+    Point findEmptyTile() const
+    {
+        for(int i = 0; i < SIZE; ++i)
+            for(int j = 0; j < SIZE; ++j)
+                if(m_grid[i][j].isEmpty())
+                    return { j, i };
+
+        assert(0 && "There is no empty tile in the board!!!");
+        return { -1,-1 };
+    }
+
+    void swapTiles(Point pt1, Point pt2)
+    {
+        std::swap(m_grid[pt1.y][pt1.x], m_grid[pt2.y][pt2.x]);
+    }
+
+    bool moveTile(Direction dir)
+    {
+        Point emptyTile{ findEmptyTile() };
+        Point adj{ emptyTile.getAdjacentPoint(-dir) };
+
+        if(!isValidPoint(adj))
+            return false;
+
+        swapTiles(emptyTile, adj);
+        return true;
     }
 
     static void printEmptyLines(int count)
@@ -294,13 +289,7 @@ int main()
     Board board {};
     std::cout << board;
 
-    for(int i = 0; i < 4; ++i)
-    {
-        std::cout << "Generating random direction... " << Direction::getRandomDirection() << '\n';
-    }
-
-    std::cout << '\n';
-
+    std::cout << "Enter a command: ";
     while (true)
     {
         char ch { UserInput::getCommandFromUser() };
@@ -313,17 +302,10 @@ int main()
 
         Direction dir { UserInput::charToDirection(ch) };
 
-        std::cout << "You entered direction: " << dir << '\n';
+        bool userMoved { board.moveTile(dir) };
+        if(userMoved)
+            std::cout << board;
     }
-
-    std::cout << std::boolalpha;
-    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::up) == Point{ 1, 0 }) << '\n';
-    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::down)  == Point{ 1, 2 }) << '\n';
-    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::left)  == Point{ 0, 1 }) << '\n';
-    std::cout << (Point{ 1, 1 }.getAdjacentPoint(Direction::right) == Point{ 2, 1 }) << '\n';
-    std::cout << (Point{ 1, 1 } != Point{ 2, 1 }) << '\n';
-    std::cout << (Point{ 1, 1 } != Point{ 1, 2 }) << '\n';
-    std::cout << !(Point{ 1, 1 } != Point{ 1, 1 }) << '\n'; 
 
     return 0;
 }
