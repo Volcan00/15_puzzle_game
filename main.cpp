@@ -150,6 +150,7 @@ public:
     {
         int defaultValue = 1;
 
+        //Initialize a grid of tiles from 1 to 15 and an empty tile
         for(int i = 0; i < SIZE; ++i)
         {
             for(int j = 0; j < SIZE; ++j)
@@ -207,6 +208,19 @@ public:
             std::cout << '\n';
         }
     }
+    
+    void randomize()
+    {
+        // just move empty tile randomly 1000 times
+        // (just like you would do in real life)
+        for (int i = 0; i < 1000; ++i)
+        {
+            bool success = moveTile(Direction::getRandomDirection());
+            // If we tried to move in invalid direction, don't count this iteration
+            if (!success)
+                --i;
+        }
+    }
 
     //Overloaded output operator for the board
     friend std::ostream& operator<<(std::ostream& out, Board& board)
@@ -229,6 +243,28 @@ public:
         }
 
         return out;
+    }
+
+    friend bool operator==(const Board& board1, const Board& board2)
+    {
+        for(int i = 0; i < SIZE; ++i)
+        {
+            for(int j = 0; j < SIZE; ++j)
+            {
+                if(board1.m_grid[i][j].getNum() != board2.m_grid[i][j].getNum())
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool playerWon() const
+    {
+        Board s_solved {}; // generate a solved board
+        return s_solved == *this; // player wins if current board == solved board
     }
 
 private:
@@ -287,10 +323,11 @@ namespace UserInput
 int main()
 {
     Board board {};
+    board.randomize();
     std::cout << board;
 
     std::cout << "Enter a command: ";
-    while (true)
+    while (!board.playerWon())
     {
         char ch { UserInput::getCommandFromUser() };
 
@@ -306,6 +343,8 @@ int main()
         if(userMoved)
             std::cout << board;
     }
+
+    std::cout << "\n\nYou won\n\n";
 
     return 0;
 }
