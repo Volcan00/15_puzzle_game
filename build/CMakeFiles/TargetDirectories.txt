@@ -1,5 +1,0 @@
-/home/volcano/Desktop/15_puzzle_game/build/CMakeFiles/main.dir
-/home/volcano/Desktop/15_puzzle_game/build/CMakeFiles/main_tests.dir
-/home/volcano/Desktop/15_puzzle_game/build/CMakeFiles/test.dir
-/home/volcano/Desktop/15_puzzle_game/build/CMakeFiles/edit_cache.dir
-/home/volcano/Desktop/15_puzzle_game/build/CMakeFiles/rebuild_cache.dir
