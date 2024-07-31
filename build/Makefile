@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/volcano/Desktop/15_puzzle_game/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
@@ -129,29 +139,201 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+#=============================================================================
+# Target rules for targets named main_tests
+
+# Build rule for target.
+main_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main_tests
+.PHONY : main_tests
+
+# fast build rule for target.
+main_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/build
+.PHONY : main_tests/fast
+
+src/Board.o: src/Board.cpp.o
+.PHONY : src/Board.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/Board.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Board.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Board.cpp.o
+.PHONY : src/Board.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+src/Board.i: src/Board.cpp.i
+.PHONY : src/Board.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/Board.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Board.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Board.cpp.i
+.PHONY : src/Board.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src/Board.s: src/Board.cpp.s
+.PHONY : src/Board.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/Board.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Board.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Board.cpp.s
+.PHONY : src/Board.cpp.s
+
+src/Direction.o: src/Direction.cpp.o
+.PHONY : src/Direction.o
+
+# target to build an object file
+src/Direction.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Direction.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Direction.cpp.o
+.PHONY : src/Direction.cpp.o
+
+src/Direction.i: src/Direction.cpp.i
+.PHONY : src/Direction.i
+
+# target to preprocess a source file
+src/Direction.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Direction.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Direction.cpp.i
+.PHONY : src/Direction.cpp.i
+
+src/Direction.s: src/Direction.cpp.s
+.PHONY : src/Direction.s
+
+# target to generate assembly for a file
+src/Direction.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Direction.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Direction.cpp.s
+.PHONY : src/Direction.cpp.s
+
+src/Point.o: src/Point.cpp.o
+.PHONY : src/Point.o
+
+# target to build an object file
+src/Point.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Point.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Point.cpp.o
+.PHONY : src/Point.cpp.o
+
+src/Point.i: src/Point.cpp.i
+.PHONY : src/Point.i
+
+# target to preprocess a source file
+src/Point.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Point.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Point.cpp.i
+.PHONY : src/Point.cpp.i
+
+src/Point.s: src/Point.cpp.s
+.PHONY : src/Point.s
+
+# target to generate assembly for a file
+src/Point.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Point.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Point.cpp.s
+.PHONY : src/Point.cpp.s
+
+src/Tile.o: src/Tile.cpp.o
+.PHONY : src/Tile.o
+
+# target to build an object file
+src/Tile.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Tile.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Tile.cpp.o
+.PHONY : src/Tile.cpp.o
+
+src/Tile.i: src/Tile.cpp.i
+.PHONY : src/Tile.i
+
+# target to preprocess a source file
+src/Tile.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Tile.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Tile.cpp.i
+.PHONY : src/Tile.cpp.i
+
+src/Tile.s: src/Tile.cpp.s
+.PHONY : src/Tile.s
+
+# target to generate assembly for a file
+src/Tile.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/Tile.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/Tile.cpp.s
+.PHONY : src/Tile.cpp.s
+
+src/UserInput.o: src/UserInput.cpp.o
+.PHONY : src/UserInput.o
+
+# target to build an object file
+src/UserInput.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/UserInput.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/UserInput.cpp.o
+.PHONY : src/UserInput.cpp.o
+
+src/UserInput.i: src/UserInput.cpp.i
+.PHONY : src/UserInput.i
+
+# target to preprocess a source file
+src/UserInput.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/UserInput.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/UserInput.cpp.i
+.PHONY : src/UserInput.cpp.i
+
+src/UserInput.s: src/UserInput.cpp.s
+.PHONY : src/UserInput.s
+
+# target to generate assembly for a file
+src/UserInput.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/UserInput.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/src/UserInput.cpp.s
+.PHONY : src/UserInput.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
+tests/main_tests.o: tests/main_tests.cpp.o
+.PHONY : tests/main_tests.o
+
+# target to build an object file
+tests/main_tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/tests/main_tests.cpp.o
+.PHONY : tests/main_tests.cpp.o
+
+tests/main_tests.i: tests/main_tests.cpp.i
+.PHONY : tests/main_tests.i
+
+# target to preprocess a source file
+tests/main_tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/tests/main_tests.cpp.i
+.PHONY : tests/main_tests.cpp.i
+
+tests/main_tests.s: tests/main_tests.cpp.s
+.PHONY : tests/main_tests.s
+
+# target to generate assembly for a file
+tests/main_tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_tests.dir/build.make CMakeFiles/main_tests.dir/tests/main_tests.cpp.s
+.PHONY : tests/main_tests.cpp.s
 
 # Help Target
 help:
@@ -161,10 +343,30 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... main"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... main_tests"
+	@echo "... src/Board.o"
+	@echo "... src/Board.i"
+	@echo "... src/Board.s"
+	@echo "... src/Direction.o"
+	@echo "... src/Direction.i"
+	@echo "... src/Direction.s"
+	@echo "... src/Point.o"
+	@echo "... src/Point.i"
+	@echo "... src/Point.s"
+	@echo "... src/Tile.o"
+	@echo "... src/Tile.i"
+	@echo "... src/Tile.s"
+	@echo "... src/UserInput.o"
+	@echo "... src/UserInput.i"
+	@echo "... src/UserInput.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... tests/main_tests.o"
+	@echo "... tests/main_tests.i"
+	@echo "... tests/main_tests.s"
 .PHONY : help
 
 

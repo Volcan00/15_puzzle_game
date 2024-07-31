@@ -1,6 +1,16 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/main.dir/main.cpp.o"
-  "CMakeFiles/main.dir/main.cpp.o.d"
+  "CMakeFiles/main.dir/src/Board.cpp.o"
+  "CMakeFiles/main.dir/src/Board.cpp.o.d"
+  "CMakeFiles/main.dir/src/Direction.cpp.o"
+  "CMakeFiles/main.dir/src/Direction.cpp.o.d"
+  "CMakeFiles/main.dir/src/Point.cpp.o"
+  "CMakeFiles/main.dir/src/Point.cpp.o.d"
+  "CMakeFiles/main.dir/src/Tile.cpp.o"
+  "CMakeFiles/main.dir/src/Tile.cpp.o.d"
+  "CMakeFiles/main.dir/src/UserInput.cpp.o"
+  "CMakeFiles/main.dir/src/UserInput.cpp.o.d"
+  "CMakeFiles/main.dir/src/main.cpp.o"
+  "CMakeFiles/main.dir/src/main.cpp.o.d"
   "main"
   "main.pdb"
 )
