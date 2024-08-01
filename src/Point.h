@@ -8,6 +8,9 @@ struct Point
     int x{};
     int y{};
 
+    Point() = default;
+    Point(int x, int y);
+
     friend bool operator==(Point p1, Point p2);
     friend bool operator!=(Point p1, Point p2);
 

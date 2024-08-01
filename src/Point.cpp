@@ -1,5 +1,11 @@
 #include "Point.h"
 
+Point::Point(int x, int y)
+    : x { x },
+      y { y }
+    {
+    }
+
 bool operator==(Point p1, Point p2)
 {
     return p1.x == p2.x && p1.y == p2.y;

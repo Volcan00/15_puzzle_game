@@ -9,7 +9,7 @@ int main()
     std::cout << board;
 
     std::cout << "Enter a command: ";
-    while (!board.playerWon())
+    while (true)
     {
         char ch { UserInput::getCommandFromUser() };
 
